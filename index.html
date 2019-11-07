@@ -3,14 +3,36 @@
 <body>
 
 <h2>HTML Forms</h2>
+<script>
+function submitGoogleForm(form) {
+    try {
+	var validRequest = true;
+      var data = [].slice.call(form).map(function(control) {
+        return 'value' in control && control.name ?
+          control.name + '=' + (control.value === undefined ? '' : control.value) :
+          '';
+      }).join('&');
+      var xhr = new XMLHttpRequest();
 
-<form action="https://docs.google.com/forms/d/e/1FAIpQLScdSeVtBGnWy3j-Q7Nm6J757SdT0xk8vJjBvEdgH9E-RwWxTg/formResponse" method="POST" id="mG61Hd">
+      xhr.open('POST', 'https://docs.google.com/forms/d/e/1FAIpQLScdSeVtBGnWy3j-Q7Nm6J757SdT0xk8vJjBvEdgH9E-RwWxTg'+ '/formResponse', true);
+      xhr.setRequestHeader('Accept',
+          'application/xml, text/xml, */*; q=0.01');
+      xhr.setRequestHeader('Content-type',
+          'application/x-www-form-urlencoded; charset=UTF-8');
+      var status = xhr.send(data);
+    } catch(e) {
+	validRequest = false;
+	console.log(e)
+	}
+    return false;
+  }
+</script>
+<form action="./success.html" method="POST" id="mG61Hd"  onsubmit="submitGoogleForm(this)";>
   First name:<br>
   <input class="form__email" type="text" name="entry.1617944034" id="random_text" placeholder="Random Text">
   <br>
+  <button type=submit>Submit</button>
 </form> 
-
-<p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
-
 </body>
 </html>
+
